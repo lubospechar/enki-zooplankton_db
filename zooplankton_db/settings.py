@@ -34,6 +34,7 @@ ALLOWED_HOSTS = config(
 
 
 DJANGO_APPS = [
+    #'adminconfig.apps.AdminconfigConfig',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -46,6 +47,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = []
 
 LOCAL_APPS = [
+    'adminconfig.apps.AdminconfigConfig',
     'samples.apps.SamplesConfig',
 ]
 
@@ -135,3 +137,4 @@ LANGUAGES = [
     ("cs", "Čeština"),
     ("en", "English"),
 ]
+
