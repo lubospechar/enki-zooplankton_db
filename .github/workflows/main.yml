@@ -1,0 +1,72 @@
+name: Main CI and deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gettext libgdal-dev gdal-bin binutils proj-bin
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Create CI environment
+        run: |
+          cat > .env << 'EOF'
+          SECRET_KEY=github-actions-secret-key
+          DEBUG=False
+          ALLOWED_HOSTS=localhost,127.0.0.1,testserver
+          LANGUAGE_CODE=cs
+          TIME_ZONE=Europe/Prague
+          USE_I18N=True
+          USE_TZ=True
+          DB_NAME=test_db
+          DB_USER=test_user
+          DB_PASSWORD=test_password
+          DB_HOST=localhost
+          DB_PORT=5432
+          EOF
+
+      - name: Django check
+        run: python manage.py check
+
+      - name: Compile translations
+        run: python manage.py compilemessages
+
+      - name: Run tests
+        run: python manage.py test
+
+  deploy:
+    needs: ci
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+
+    steps:
+      - name: Run deployment script on server
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          port: ${{ secrets.PROD_PORT }}
+          script: ./bin/deploy.sh
