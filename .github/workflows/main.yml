@@ -1,12 +1,9 @@
-name: Dev CI
+name: Main CI and deploy
 
 on:
   push:
     branches:
-      - dev
-  pull_request:
-    branches:
-      - dev
+      - main
   workflow_dispatch:
 
 jobs:
@@ -58,5 +55,18 @@ jobs:
       - name: Run tests
         run: python manage.py test
 
-      - name: Collect static files
-        run: python manage.py collectstatic --noinput
+  deploy:
+    needs: ci
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+
+    steps:
+      - name: Run deployment script on server
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          port: ${{ secrets.PROD_PORT }}
+          script: ./bin/deploy.sh
