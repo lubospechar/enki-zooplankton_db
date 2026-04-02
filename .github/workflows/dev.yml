@@ -57,3 +57,6 @@ jobs:
 
       - name: Run tests
         run: python manage.py test
+
+      - name: Collect static files
+        run: python manage.py collectstatic --noinput
