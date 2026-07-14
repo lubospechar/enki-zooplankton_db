@@ -28,7 +28,10 @@ class Sample(models.Model):
     original_sample_id = models.PositiveIntegerField(verbose_name=_("Original sample ID"), unique=True)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, verbose_name=_("Location"))
     date = models.DateField(verbose_name=_("Date"))
-    count = models.PositiveSmallIntegerField(verbose_name=_("Number of throws"))
+    count = models.PositiveSmallIntegerField(
+        verbose_name=_("Number of throws"),
+        help_text=_("Number of throws in the sample. If that was not possible, enter 0 - Details are in the laboratory’s main database."),
+    )
     length = models.PositiveSmallIntegerField(verbose_name=_("Throw length"))
     samples_sum = models.PositiveSmallIntegerField(verbose_name=_("Number of samples"))
     project = models.ForeignKey(
