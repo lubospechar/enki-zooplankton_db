@@ -36,6 +36,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Sample)
 class SampleAdmin(admin.ModelAdmin):
+    readonly_fields = ("created_at",)
     list_display = (
         "original_sample_id",
         "date",
@@ -72,7 +73,7 @@ class SampleAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (_("Identification"), {
-            "fields": ("original_sample_id",),
+            "fields": ("original_sample_id", "created_at",),
         }),
         (_("Basic information"), {
             "fields": ("date", "location", "project"),
@@ -81,7 +82,7 @@ class SampleAdmin(admin.ModelAdmin):
             "fields": ("count", "length", "samples_sum"),
         }),
         (_("Processing"), {
-            "fields": ("process_date", "complete_date", "complete", "store"),
+            "fields": ("process_date", "zooplankton_analyst", "complete_date", "complete", "store"),
         }),
     )
 

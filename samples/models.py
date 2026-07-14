@@ -15,7 +15,7 @@ class UserProfile(models.Model):
     )
 
     def __str__(self):
-        return str(self.user)
+        return str(self.user.get_full_name() or self.user.username)
 
     class Meta:
         verbose_name = _("User profile")
@@ -45,6 +45,10 @@ class Project(models.Model):
 
 class Sample(models.Model):
     original_sample_id = models.PositiveIntegerField(verbose_name=_("Original sample ID"), unique=True)
+    created_at = models.DateTimeField(
+        verbose_name=_("Record created"),
+        auto_now_add=True,
+    )
     location = models.ForeignKey(Location, on_delete=models.CASCADE, verbose_name=_("Location"))
     date = models.DateField(verbose_name=_("Date"))
     count = models.PositiveSmallIntegerField(
@@ -61,6 +65,14 @@ class Sample(models.Model):
         blank=True,
     )
     process_date = models.DateField(verbose_name=_("Sample handover date"))
+    zooplankton_analyst = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE,
+        verbose_name=_("Zooplankton analyst"),
+        limit_choices_to={"zooplankton_analyst": True},
+        null=True,
+        blank=True,
+    )
     complete_date = models.DateField(verbose_name=_("Data delivery date"))
     complete = models.BooleanField(verbose_name=_("Completed"), default=False)
     store = models.BooleanField(verbose_name=_("Keep stored"), default=True)
