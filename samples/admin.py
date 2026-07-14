@@ -49,6 +49,7 @@ class SampleAdmin(admin.ModelAdmin):
         "complete_date",
         "complete",
         "store",
+        "lost",
     )
     list_filter = (
         "complete",
@@ -82,7 +83,7 @@ class SampleAdmin(admin.ModelAdmin):
             "fields": ("count", "length", "samples_sum"),
         }),
         (_("Processing"), {
-            "fields": ("process_date", "zooplankton_analyst", "complete_date", "complete", "store"),
+            "fields": ("process_date", "zooplankton_analyst", "complete_date", "complete", "store", "lost"),
         }),
     )
 
