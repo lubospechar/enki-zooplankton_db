@@ -1,6 +1,25 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="profile",
+        verbose_name=_("User"),
+    )
+    zooplankton_analyst = models.BooleanField(
+        verbose_name=_("Zooplankton analyst"),
+        default=False,
+    )
+
+    def __str__(self):
+        return str(self.user)
+
+    class Meta:
+        verbose_name = _("User profile")
+        verbose_name_plural = _("User profiles")
 
 class Location(models.Model):
     location_name = models.CharField(max_length=255, unique=True, verbose_name=_("Location"))
@@ -45,6 +64,7 @@ class Sample(models.Model):
     complete_date = models.DateField(verbose_name=_("Data delivery date"))
     complete = models.BooleanField(verbose_name=_("Completed"), default=False)
     store = models.BooleanField(verbose_name=_("Keep stored"), default=True)
+    lost = models.BooleanField(verbose_name=_("Lost sample"), default=False)
 
     def __str__(self):
         return f"{self.location} - {self.date}"

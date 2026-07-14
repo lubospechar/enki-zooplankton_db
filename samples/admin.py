@@ -1,7 +1,23 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+from samples.models import Location, Project, Sample, UserProfile
 
-from samples.models import Location, Project, Sample
+class UserProfileInline(admin.StackedInline):
+    model = UserProfile
+    can_delete = False
+    extra = 0
+    verbose_name = _("User profile")
+    verbose_name_plural = _("User profile")
+
+
+class CustomUserAdmin(UserAdmin):
+    inlines = (UserProfileInline,)
+
+
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
 
 
 @admin.register(Location)
