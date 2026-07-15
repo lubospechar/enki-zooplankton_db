@@ -1,6 +1,25 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="profile",
+        verbose_name=_("User"),
+    )
+    zooplankton_analyst = models.BooleanField(
+        verbose_name=_("Zooplankton analyst"),
+        default=False,
+    )
+
+    def __str__(self):
+        return str(self.user.get_full_name() or self.user.username)
+
+    class Meta:
+        verbose_name = _("User profile")
+        verbose_name_plural = _("User profiles")
 
 class Location(models.Model):
     location_name = models.CharField(max_length=255, unique=True, verbose_name=_("Location"))
@@ -15,9 +34,19 @@ class Location(models.Model):
 
 class Project(models.Model):
     project_name = models.CharField(max_length=255, unique=True, verbose_name=_("Project"))
+    deadline = models.DateField(verbose_name=_("Project deadline"), null=True, blank=True)
+    project_done = models.BooleanField(verbose_name=_("Project done"), default=False)
 
     def __str__(self):
         return self.project_name
+
+    def count_samples(self):
+        return self.sample.all().count()
+    count_samples.short_description = _("Number of samples")
+
+    def count_complete_samples(self):
+        return self.sample.filter(complete=True).count()
+    count_complete_samples.short_description = _("Number of completed samples")
 
     class Meta:
         verbose_name = _("Project")
@@ -26,9 +55,16 @@ class Project(models.Model):
 
 class Sample(models.Model):
     original_sample_id = models.PositiveIntegerField(verbose_name=_("Original sample ID"), unique=True)
+    created_at = models.DateTimeField(
+        verbose_name=_("Record created"),
+        auto_now_add=True,
+    )
     location = models.ForeignKey(Location, on_delete=models.CASCADE, verbose_name=_("Location"))
     date = models.DateField(verbose_name=_("Date"))
-    count = models.PositiveSmallIntegerField(verbose_name=_("Number of throws"))
+    count = models.PositiveSmallIntegerField(
+        verbose_name=_("Number of throws"),
+        help_text=_("Number of throws in the sample. If that was not possible, enter 0 - Details are in the laboratory’s main database."),
+    )
     length = models.PositiveSmallIntegerField(verbose_name=_("Throw length"))
     samples_sum = models.PositiveSmallIntegerField(verbose_name=_("Number of samples"))
     project = models.ForeignKey(
@@ -37,11 +73,21 @@ class Sample(models.Model):
         verbose_name=_("Project"),
         null=True,
         blank=True,
+        related_name="sample",
     )
-    process_date = models.DateField(verbose_name=_("Sample handover date"))
+    process_date = models.DateField(verbose_name=_("Sample handover date"), null=True, blank=True)
+    zooplankton_analyst = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE,
+        verbose_name=_("Zooplankton analyst"),
+        limit_choices_to={"zooplankton_analyst": True},
+        null=True,
+        blank=True,
+    )
     complete_date = models.DateField(verbose_name=_("Data delivery date"))
     complete = models.BooleanField(verbose_name=_("Completed"), default=False)
     store = models.BooleanField(verbose_name=_("Keep stored"), default=True)
+    lost = models.BooleanField(verbose_name=_("Lost sample"), default=False)
 
     def __str__(self):
         return f"{self.location} - {self.date}"
