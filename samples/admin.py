@@ -29,7 +29,11 @@ class LocationAdmin(admin.ModelAdmin):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ("id", "project_name")
+    list_display = ("id", "project_name", "deadline", "project_done", "count_samples", "count_complete_samples")
+    list_filter = (
+        "deadline",
+        "project_done",
+    )
     search_fields = ("project_name",)
     ordering = ("project_name",)
 

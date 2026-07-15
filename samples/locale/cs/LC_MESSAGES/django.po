@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-14 15:10+0200\n"
+"POT-Creation-Date: 2026-07-15 11:51+0200\n"
 "PO-Revision-Date: 2026-04-02 10:59+0200\n"
 "Last-Translator: Luboš Pechar <lubos.pechar@prirodou.cz>\n"
 "Language-Team: Czech\n"
@@ -18,82 +18,122 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
 "<= 4 && n % 1 == 0) ? 1 : (n % 1 != 0) ? 2 : 3;\n"
 
-#: samples/admin.py:58
+#: samples/admin.py:11 samples/admin.py:12 samples/models.py:21
+msgid "User profile"
+msgstr "Uživateslký profil"
+
+#: samples/admin.py:80
 msgid "Identification"
 msgstr "Identifikace"
 
-#: samples/admin.py:61
+#: samples/admin.py:83
 msgid "Basic information"
 msgstr "Základní informace"
 
-#: samples/admin.py:64
+#: samples/admin.py:86
 msgid "Sample parameters"
 msgstr "Parametry vzorku"
 
-#: samples/admin.py:67
+#: samples/admin.py:89
 msgid "Processing"
 msgstr "Zpracování"
 
-#: samples/admin.py:72 samples/models.py:46
+#: samples/admin.py:94 samples/models.py:88
 msgid "Completed"
 msgstr "Hotovo"
 
-#: samples/apps.py:6 samples/models.py:54
+#: samples/apps.py:6 samples/models.py:97
 msgid "Samples"
 msgstr "Vzorky"
 
-#: samples/models.py:6 samples/models.py:12 samples/models.py:29
+#: samples/models.py:10
+msgid "User"
+msgstr "Uživatel"
+
+#: samples/models.py:13 samples/models.py:82
+msgid "Zooplankton analyst"
+msgstr "Kdo analyzuje vzorek"
+
+#: samples/models.py:22
+msgid "User profiles"
+msgstr "Uživatelské profily"
+
+#: samples/models.py:25 samples/models.py:31 samples/models.py:62
 msgid "Location"
 msgstr "Lokalita"
 
-#: samples/models.py:13
+#: samples/models.py:32
 msgid "Locations"
 msgstr "Lokality"
 
-#: samples/models.py:17 samples/models.py:23 samples/models.py:40
+#: samples/models.py:36 samples/models.py:52 samples/models.py:73
 msgid "Project"
 msgstr "Projekt"
 
-#: samples/models.py:24
-msgid "Projects"
-msgstr "Projekty"
+#: samples/models.py:37
+msgid "Project deadline"
+msgstr "Deadline projektu"
 
-#: samples/models.py:28
-msgid "Original sample ID"
-msgstr "Původní ID vzorku"
+#: samples/models.py:38
+msgid "Project done"
+msgstr "Projekt je hotov"
 
-#: samples/models.py:30
-msgid "Date"
-msgstr "Datum"
-
-#: samples/models.py:32
-msgid "Number of throws"
-msgstr "Počet hodů"
-
-#: samples/models.py:33
-msgid "Number of throws in the sample. If that was not possible, enter 0 - Details are in the laboratory’s main database."
-msgstr "Zadej počet hodů, pokud to není možné (např vegetace), zadej 0 - podrobnosti jsou v hlavní databázi laboratoře."
-
-#: samples/models.py:35
-msgid "Throw length"
-msgstr "Délka hodu"
-
-#: samples/models.py:36
+#: samples/models.py:45 samples/models.py:69
 msgid "Number of samples"
 msgstr "Počet vzorků"
 
-#: samples/models.py:44
+#: samples/models.py:49
+msgid "Number of completed samples"
+msgstr "Počet vzorků zpracovaných vzorků"
+
+#: samples/models.py:53
+msgid "Projects"
+msgstr "Projekty"
+
+#: samples/models.py:57
+msgid "Original sample ID"
+msgstr "Původní ID vzorku"
+
+#: samples/models.py:59
+msgid "Record created"
+msgstr "Vytvoření záznamu"
+
+#: samples/models.py:63
+msgid "Date"
+msgstr "Datum"
+
+#: samples/models.py:65
+msgid "Number of throws"
+msgstr "Počet hodů"
+
+#: samples/models.py:66
+msgid ""
+"Number of throws in the sample. If that was not possible, enter 0 - Details "
+"are in the laboratory’s main database."
+msgstr ""
+"Zadej počet hodů, pokud to není možné (např vegetace), zadej 0 - podrobnosti "
+"jsou v hlavní databázi laboratoře."
+
+#: samples/models.py:68
+msgid "Throw length"
+msgstr "Délka hodu"
+
+#: samples/models.py:78
 msgid "Sample handover date"
 msgstr "Datum předání vzorků"
 
-#: samples/models.py:45
+#: samples/models.py:87
 msgid "Data delivery date"
 msgstr "Datum dodání dat"
 
-#: samples/models.py:47
+#: samples/models.py:89
 msgid "Keep stored"
 msgstr "Uchovávat"
 
-#: samples/models.py:53
+#: samples/models.py:90
+msgid "Lost sample"
+msgstr "Ztracený vzorek"
+
+#: samples/models.py:96
 msgid "Sample"
 msgstr "Vzorek"

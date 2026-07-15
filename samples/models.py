@@ -34,9 +34,19 @@ class Location(models.Model):
 
 class Project(models.Model):
     project_name = models.CharField(max_length=255, unique=True, verbose_name=_("Project"))
+    deadline = models.DateField(verbose_name=_("Project deadline"), null=True, blank=True)
+    project_done = models.BooleanField(verbose_name=_("Project done"), default=False)
 
     def __str__(self):
         return self.project_name
+
+    def count_samples(self):
+        return self.sample.all().count()
+    count_samples.short_description = _("Number of samples")
+
+    def count_complete_samples(self):
+        return self.sample.filter(complete=True).count()
+    count_complete_samples.short_description = _("Number of completed samples")
 
     class Meta:
         verbose_name = _("Project")
@@ -63,8 +73,9 @@ class Sample(models.Model):
         verbose_name=_("Project"),
         null=True,
         blank=True,
+        related_name="sample",
     )
-    process_date = models.DateField(verbose_name=_("Sample handover date"))
+    process_date = models.DateField(verbose_name=_("Sample handover date"), null=True, blank=True)
     zooplankton_analyst = models.ForeignKey(
         UserProfile,
         on_delete=models.CASCADE,
